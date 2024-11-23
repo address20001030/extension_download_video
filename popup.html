@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Youtube video downloader</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/iframe-resizer/4.3.9/iframeResizer.min.js"></script>
+    <style>
+      .container {
+        width: 300px;
+        height: 200px;
+        background-color: #f0f0f0;
+        position: relative;
+        margin: 50px; 
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container style-scope ytd-download-button-renderer">
+      This is a container.
+    </div>
+    <script> iFrameResize({ log: false }, '#widgetPlusApi') </script>
+    <script src="script.js"></script>
+  </body>
+</html>
