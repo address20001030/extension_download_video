@@ -1,6 +1,67 @@
 let button;
 let modal;
 let quality = "720";
+let buttonTiktok;
+let buttonFacebook;
+
+
+function downloadTiktok() {
+    var element = document.querySelector('div[class*="DivFlexCenterRow"]');
+    if (element) {
+
+        buttonTiktok = document.createElement('button');
+        buttonTiktok.innerHTML = "Download";
+        buttonTiktok.style.fontWeight = "bold"
+
+        buttonTiktok.addEventListener("click", function () {
+            let arrLink = document.querySelector('video').querySelectorAll('source');
+            arrLink.forEach((item, index) => {
+                console.log(item.src);
+            });
+        });
+
+        element.appendChild(buttonTiktok);
+
+    }
+}
+
+function findSpanByText(text) {
+    const spans = document.querySelectorAll('span');
+    for (let span of spans) {
+        if (span.textContent.trim() === text) {
+            return span; // Trả về phần tử <span> nếu văn bản trùng khớp
+        }
+    }
+    return null; // Nếu không tìm thấy phần tử nào
+}
+
+function downloadFacebook() {
+
+    var element = findSpanByText('Tổng quan').parentNode.parentNode.parentNode.parentNode;
+    if (element) {
+        if (buttonFacebook) {
+
+            element.removeChild(buttonFacebook);
+        }
+        buttonFacebook = document.createElement('button');
+        buttonFacebook.innerHTML = "Download";
+        buttonFacebook.style.fontWeight = "bold"
+        buttonFacebook.id = "down-video";
+
+        buttonFacebook.addEventListener("click", function () {
+            var urlFb = window.location.href;
+            console.log(urlFb);
+        });
+        element.appendChild(buttonFacebook);
+
+    } else {
+        if (buttonFacebook) {
+
+            buttonFacebook = null;
+        }
+    }
+}
+
 
 function coverButton() {
     var element = document.querySelector('.style-scope.ytd-download-button-renderer');
@@ -36,7 +97,7 @@ function coverButton() {
         // Add event listener to open the modal on button click
         button.addEventListener("click", function () {
             openModal();
-            //console.log("vao dayyy");
+
         });
 
         document.body.appendChild(button);
@@ -91,8 +152,8 @@ async function openModal() {
     iframe.src = `https://download.y2api.com/api/widgetplus?url=${url}`
     iframe.width = '100%';                    // Chiều rộng của iframe
     iframe.height = '100%';                   // Chiều cao của iframe              // Tắt viền của iframe
-    iframe.allowfullscreen = true; 
-    
+    iframe.allowfullscreen = true;
+
     // Wait for the data (show loader)
     // let qualityList;
     // try {
@@ -126,14 +187,25 @@ async function openModal() {
         modal = null; // Clear modal reference
     });
 
-  
+
 
     modalContent.appendChild(closeButton);
     modalContent.appendChild(iframe);
 
 }
 
+function runExtension(){
+    var url = window.location.href;
+    if(url.includes('facebook.com')){
+        downloadFacebook();
+    }else if(url.includes('youtube.com')){
+        coverButton();
+    }else if(url.includes('tiktok.com')){
+        downloadTiktok();
+    }
+}
 
 window.addEventListener('load', function () {
-    setInterval(coverButton, 1000);
+    // setInterval(coverButton, 1000);
+    setInterval(runExtension, 1000);
 });
